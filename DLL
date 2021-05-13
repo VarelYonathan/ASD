@@ -1,0 +1,83 @@
+class Node {
+    Object data;
+    Node next;
+    Node prev;
+
+    Node(Object data) {
+        this.data = data;
+    }
+
+    Node(Object data, Node prev, Node next) {
+        this.data = data;
+        this.prev = prev;
+        this.next = next;
+    }
+}
+
+class DoubleLinkedList {
+    Node head;
+    Node tail;
+    int size = 0;
+    String kata;
+    DoubleLinkedList(String kata){
+        inisialisasiNull();
+        this.kata=kata;
+    }
+    void inisialisasiNull() {
+        head = tail = null;
+    }
+
+    boolean isEmpty() {
+        return (size == 0);
+    }
+
+    int getsize() {
+        return size;
+    }
+  
+    void addLast(Object input) {
+        Node temp = new Node(input);
+        if (isEmpty()){
+            head=tail=temp;
+        } else {
+            temp.prev = tail;
+            tail.next = temp;
+            tail=temp;
+        }
+        size++;
+    }
+  
+    public String read(){
+        return this.kata;
+    }
+  
+    public String reverse(){
+        char[] cArray=new char[kata.length()];
+        int j=0;
+        for(int i=this.kata.length()-1;i>=0;i--){
+            cArray[j]=this.kata.charAt(i);
+            j++;
+        }
+        String reverse=new String(cArray);
+        return reverse;
+    }
+  
+    public boolean isPalindrome(){
+        if(this.reverse().equals(this.read())){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}
+public class Tes {
+    public static void main(String[]args){
+        Scanner input=new Scanner(System.in);
+        DoubleLinkedList p=new DoubleLinkedList(input.nextLine());
+        if(p.isPalindrome()==false){
+            System.out.println("Bukan Palindrome Boi!");
+        }else{
+            System.out.println("Palindrome Bosque!");
+        }
+    }
+}
