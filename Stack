@@ -1,0 +1,120 @@
+import java.util.Scanner;
+public class Solution {
+    public static void main(String[] args) {
+        Scanner inputan= new Scanner(System.in);
+        Stack vstk= new Stack();
+        int jBox=inputan.nextInt();
+        for(int i=jBox;i>0;i--){
+            vstk.push(new Node(inputan.nextInt()));
+        }
+        int jPerintah=inputan.nextInt();
+        inputan.nextLine();
+        for (int j=jPerintah; j>0;j--){
+            String masuk=inputan.nextLine();
+            switch(masuk){
+                case "peek":{
+                    vstk.peek();
+                    break;
+                }
+                case "pop":{
+                    vstk.pop();
+                    break;
+                }
+                case "push":{
+                    vstk.push(new Node(inputan.nextInt()));
+                    inputan.nextLine();
+                    break;
+                }
+                case "hapus awal":{
+                    vstk.removeLast();
+                    break;
+                }
+                case "cetak":{
+                    vstk.print();
+                    break;
+                }
+            }
+        }
+    }
+}
+
+class Stack {
+    Scanner inputan = new Scanner(System.in);
+    Node head, tail, top;
+    int size = 0;
+
+    void inisialisasiNull() {
+        head=tail=null;
+    }
+    int getSize() {
+        return size;
+    }
+    boolean isEmpty() {
+        return size==0;
+    }
+    void removeLast() {
+        Node pt=head;
+        if(head==tail){
+            head=tail=null;
+            size--;
+        }else{
+            while(pt!=null){
+                if(pt.next.next==null){
+                    pt.next=null;
+                    tail=pt;
+                    size--;
+                    break;
+                }
+                pt=pt.next;
+            }
+        }
+    }
+
+    void peek(){
+        System.out.println("peek: "+head.data);    
+    }
+
+   void push(Node input){
+       if (isEmpty()){
+           head=tail=top=input;
+       } else {
+           input.next=head;
+           head=input;
+       }
+       size++;
+   }
+
+    void pop(){
+        Node pt=head;
+        System.out.println("pop: "+pt.data);
+        if(isEmpty()){
+            head=tail=null;
+            size--;
+        } else {
+            head=pt.next;
+            size--;
+        }
+    }
+    void print(){
+        Node p=head;
+        while (p!=null){
+            System.out.print(p.data+"<-");
+            p=p.next;
+        }
+        System.out.println("");
+    }
+}
+
+class Node {
+    Node next;
+    int data;
+
+    Node(int data) {
+        this.data = data;
+    }
+
+    Node(int data, Node pointer) {
+        this.data = data;
+        this.next = pointer;
+    }
+}
