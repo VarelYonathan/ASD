@@ -1,3 +1,4 @@
+import java.util.Scanner;
 class Node {
     Object data;
     Node next;
@@ -20,7 +21,6 @@ class DoubleLinkedList {
     int size = 0;
     String kata;
     DoubleLinkedList(String kata){
-        inisialisasiNull();
         this.kata=kata;
     }
     void inisialisasiNull() {
@@ -46,28 +46,21 @@ class DoubleLinkedList {
         }
         size++;
     }
-  
-    public String read(){
-        return this.kata;
-    }
-  
-    public String reverse(){
-        char[] cArray=new char[kata.length()];
-        int j=0;
-        for(int i=this.kata.length()-1;i>=0;i--){
-            cArray[j]=this.kata.charAt(i);
-            j++;
-        }
-        String reverse=new String(cArray);
-        return reverse;
-    }
-  
     public boolean isPalindrome(){
-        if(this.reverse().equals(this.read())){
-            return true;
-        }else{
-            return false;
+        DoubleLinkedList p=new DoubleLinkedList(this.kata);
+        for(int i=0;i<kata.length();i++){
+            p.addLast(kata.charAt(i));
         }
+        Node d=p.head;
+        Node b=p.tail;
+        while(d!=null&b!=null){
+            if(d.data!=b.data){
+                return false;
+            }
+            d=d.next;
+            b=b.prev;
+        }
+        return true;
     }
 }
 public class Tes {
