@@ -1,0 +1,153 @@
+class Qnode {
+    int prio;
+    String data;
+    Qnode next;
+
+    Qnode (String data) {
+        this.data=data;
+    }
+
+    Qnode (String data, String kasta) {
+        this.data = data;
+        if(kasta.equals("ratu")){
+            this.prio=1;
+        }else if(kasta.equals("pejantan")){
+            this.prio=2;
+        }else if(kasta.equals("pekerja")){
+            this.prio=3;
+        }else if(kasta.equals("preman")){
+            this.prio=4;
+        }
+    }
+}
+
+class Qprio {
+    Qnode head, tail, front, rear;
+    int size = 0;
+
+    boolean isEmpty(){
+        return (rear == null);
+    }
+
+    int getSize(){
+        return size;
+    }
+
+    void inisialisasiNull(){
+        head = tail = front = rear = null;
+    }
+
+    void peek(){
+        System.out.println("Semut yang sedang BAB:\n" + head.data);
+    }
+    void siapBAB(){
+        System.out.print(head.data+" ");
+    }
+
+    void dequeue(){
+        if (this.isEmpty()){
+            System.out.println("Queue is empty");
+        } else {
+            removeFirst();
+            front = head;
+        }
+    }
+
+    void removeFirst(){
+        Qnode tmp = head;
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+        } else {
+            if (head == tail){
+                inisialisasiNull();
+                System.out.println("Queue is null");
+                size--;
+            } else {
+                tmp = tmp.next;
+                head = tmp;
+                tmp = null;
+                size--;
+            }
+        }
+        
+    }
+
+    void enqueue(Qnode input) {
+        Qnode temp = head;
+        if (isEmpty()) {
+            addLast(input);
+            rear = tail;
+            return;
+        }
+
+        if (temp.prio > input.prio) {
+            input.next = temp;
+            head = input;
+            return;
+        } else {
+            while (temp.next != null && temp.next.prio <= input.prio) {
+                temp = temp.next;
+            }
+            if (temp.next == null) {
+                addLast(input);
+                rear = tail;
+                return;
+            } else {
+                input.next = temp.next;
+                temp.next = input;
+            }
+
+        }
+    }
+
+    void addLast(Qnode input){
+        if (isEmpty()){
+            head = input;
+            tail = input;
+            size++;
+        } else {
+            tail.next =input;
+            tail = input;
+            size++;
+        }
+    }
+
+    void print(){
+        Qnode temp = head;
+        temp = temp.next;
+        System.out.println("Semut yang kebelet BAB:");
+        while (temp != null){
+            System.out.print(temp.data + " ");
+            temp = temp.next;
+        }
+        
+    }
+}
+
+public class Solution {
+
+    public static void main(String[] args) {
+         Qprio qp = new Qprio();
+        Scanner input = new Scanner(System.in);
+        int nbar = input.nextInt();
+        int nsemut = input.nextInt();
+        input.nextLine();
+        for(int i=0; i<nsemut; i++){
+            String namaSemut = input.nextLine();
+            String jabatan = input.nextLine();
+            Qnode semut=new Qnode(namaSemut,jabatan);
+            qp.enqueue(semut);
+        }
+
+        System.out.println("Semut yang telah selesai BAB:");
+        for(int o = 1; o<nbar;o++){
+            qp.siapBAB();
+            qp.dequeue();
+        }
+        System.out.println("");
+        System.out.println("");
+        qp.peek();
+        System.out.println("");
+        qp.print();
+    }
+}
